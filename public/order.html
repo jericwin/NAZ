@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Order Online — NAZ Coffee</title>
+  <meta name="description" content="Order your NAZ Coffee favorites online for delivery, pick up or dine in, and earn Naz Rewards.">
+  <meta name="theme-color" content="#0b0908">
+  <link rel="icon" href="/assets/img/brand/favicon-48.png" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/brand/apple-touch-icon.png">
+  <link rel="preload" href="/assets/fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/js/boot.js"></script>
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/order.css">
+  <script type="module" src="/assets/js/order.js"></script>
+</head>
+<body class="order-page">
+  <a class="skip-link" href="#menu">Skip to menu</a>
+
+  <header class="site-header always-solid" id="siteHeader">
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="NAZ Coffee home">
+        <img src="/assets/img/brand/naz-logo-192.webp" alt="NAZ Coffee logo" width="44" height="44">
+        <span class="brand-name">NAZ<small>Coffee</small></span>
+      </a>
+      <nav class="nav order-nav" id="siteNav" aria-label="Main">
+        <a href="/">Home</a>
+        <a href="/#story">Our Story</a>
+        <a href="/order" aria-current="page">Menu</a>
+        <a href="/#visit">Visit Us</a>
+      </nav>
+      <button class="cart-button" id="cartButton" type="button" aria-label="Cart, 0 items">
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6 7h12l-1 12.2a1.5 1.5 0 0 1-1.5 1.3h-7a1.5 1.5 0 0 1-1.5-1.3L6 7Zm3 0V6a3 3 0 0 1 6 0v1"/></svg>
+        <span class="cart-label">Cart</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="order-intro">
+      <div class="wrap">
+        <p class="eyebrow">Order online</p>
+        <h1 class="display order-title">What are you <em>having today?</em></h1>
+        <div class="intro-row">
+          <label class="search" for="search">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            <span class="sr-only">Search the menu</span>
+            <input id="search" type="search" placeholder="Search drinks and food" autocomplete="off" enterkeyhint="search">
+          </label>
+          <p class="promo" id="rewards"><strong>Naz Rewards</strong> ₱20 = 1 point · <strong>Free Spanish Latte</strong> on your first order <span>(min. ₱300 after discounts, excl. delivery)</span></p>
+        </div>
+      </div>
+    </section>
+
+    <nav class="cat-bar" id="catBar" aria-label="Menu categories">
+      <div class="wrap"><ul class="cat-list" id="catList"></ul></div>
+    </nav>
+
+    <div class="wrap order-body">
+      <div class="menu" id="menu" aria-live="polite"></div>
+      <aside class="cart-panel" id="cartPanel" aria-labelledby="cartPanelTitle">
+        <div class="cart-panel-inner">
+          <h2 class="cart-title" id="cartPanelTitle">Your order</h2>
+          <div class="cart-body" data-cart-body></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <button class="cart-bar" id="cartBar" type="button" hidden>
+    <span class="cart-bar-count" id="cartBarCount">0</span>
+    <span class="cart-bar-label">View order</span>
+    <strong class="cart-bar-total" id="cartBarTotal">₱0</strong>
+  </button>
+
+  <!-- Product detail -->
+  <dialog class="sheet product-sheet" id="productDialog" aria-labelledby="pdName">
+    <div class="sheet-inner">
+      <button class="sheet-close" type="button" data-close aria-label="Close">×</button>
+      <div class="pd-media plate"><img id="pdImage" src="" alt="" width="480" height="480"></div>
+      <div class="pd-body">
+        <p class="pd-cat" id="pdCat"></p>
+        <h2 class="display pd-name" id="pdName"></h2>
+        <p class="pd-price" id="pdPrice"></p>
+        <p class="pd-note" id="pdNote" hidden></p>
+        <p class="pd-unavailable" id="pdUnavailable" hidden>Not available today.</p>
+        <fieldset class="pd-options" id="pdOptions" hidden>
+          <legend id="pdOptionsLegend"></legend>
+          <div class="segmented" id="pdChoices"></div>
+        </fieldset>
+        <div class="pd-actions">
+          <div class="stepper stepper-lg" role="group" aria-label="Quantity">
+            <button type="button" id="pdMinus" aria-label="Decrease quantity">−</button>
+            <output id="pdQty" aria-live="polite">1</output>
+            <button type="button" id="pdPlus" aria-label="Increase quantity">+</button>
+          </div>
+          <button class="btn btn-primary pd-add" type="button" id="pdAdd">Add to order</button>
+        </div>
+        <p class="pd-limit" id="pdLimit" hidden></p>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Mobile cart drawer -->
+  <dialog class="sheet cart-sheet" id="cartDialog" aria-labelledby="cartDialogTitle">
+    <div class="sheet-inner">
+      <button class="sheet-close" type="button" data-close aria-label="Close">×</button>
+      <h2 class="cart-title" id="cartDialogTitle">Your order</h2>
+      <div class="cart-body" data-cart-body></div>
+    </div>
+  </dialog>
+
+  <!-- Checkout -->
+  <dialog class="sheet checkout-sheet" id="checkoutDialog" aria-labelledby="checkoutTitle">
+    <div class="sheet-inner">
+      <button class="sheet-close" type="button" data-close aria-label="Close checkout">×</button>
+      <p class="eyebrow">Final step</p>
+      <h2 class="display checkout-title" id="checkoutTitle">Checkout</h2>
+
+      <form id="checkoutForm" class="checkout-form" novalidate>
+        <div class="form-error" id="formError" role="alert" tabindex="-1" hidden></div>
+
+        <section class="form-section">
+          <h3 class="form-h">Your details</h3>
+          <div class="field-row">
+            <label class="field" data-field="name"><span>Name</span><input id="fName" name="name" autocomplete="name" maxlength="80" required placeholder="Your name"></label>
+            <label class="field" data-field="phone"><span>Mobile / Viber</span><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" required placeholder="09… or +63…"></label>
+          </div>
+        </section>
+
+        <section class="form-section rewards-box" aria-labelledby="rewardsTitle">
+          <div class="rewards-head">
+            <div>
+              <h3 class="form-h" id="rewardsTitle">Naz Rewards</h3>
+              <p class="hint">Points are added to your mobile number automatically. ₱20 = 1 point · 100 points = ₱100 off.</p>
+            </div>
+            <button class="btn btn-sm" type="button" id="checkPoints">Check my points</button>
+          </div>
+          <p class="rewards-status" id="rewardsStatus" aria-live="polite"></p>
+          <label class="check redeem" id="redeemRow" hidden><input type="checkbox" id="fRedeem"><span>Use 100 points — <strong>₱100 off</strong></span></label>
+          <div class="first-order" id="firstOrder">
+            <label class="check"><input type="checkbox" id="fFirstOrder" checked><span><strong>FREE Spanish Latte</strong> on my first order</span></label>
+            <p class="hint" id="firstOrderHint">First order only · Minimum ₱300 on menu items after discounts and points redemption, excluding delivery. Eligibility is checked automatically when you send your order.</p>
+          </div>
+          <details class="new-member">
+            <summary>New member? Add your birthday &amp; offers (optional)</summary>
+            <div class="field-row">
+              <label class="field"><span>Birthday <small>(optional)</small></span><input id="fBirthday" maxlength="10" placeholder="MM / DD" inputmode="numeric"></label>
+              <label class="check"><input type="checkbox" id="fPromos"><span>Send me Naz offers</span></label>
+            </div>
+          </details>
+        </section>
+
+        <section class="form-section">
+          <fieldset class="field" data-field="orderType">
+            <legend>Order type</legend>
+            <div class="segmented">
+              <label><input type="radio" name="orderType" value="Delivery"><span>Delivery</span></label>
+              <label><input type="radio" name="orderType" value="Pick up"><span>Pick up</span></label>
+              <label><input type="radio" name="orderType" value="Dine in"><span>Dine in</span></label>
+            </div>
+          </fieldset>
+          <div class="field-row" id="deliveryFields" hidden>
+            <label class="field" data-field="deliveryAreaId"><span>Delivery area</span>
+              <select id="fArea" name="deliveryAreaId"><option value="">Choose your area</option></select>
+            </label>
+            <label class="field" data-field="address"><span>Exact delivery address</span><input id="fAddress" name="address" maxlength="300" autocomplete="street-address" placeholder="Building / office / landmark"></label>
+          </div>
+          <fieldset class="field" data-field="time">
+            <legend>Time</legend>
+            <div class="segmented">
+              <label><input type="radio" name="time" value="ASAP"><span>ASAP</span></label>
+              <label><input type="radio" name="time" value="Later"><span>Later</span></label>
+            </div>
+          </fieldset>
+          <label class="field" data-field="laterTime" id="laterField" hidden><span>Preferred time</span><input id="fLater" name="laterTime" maxlength="40" placeholder="Example: 2:30 PM"></label>
+        </section>
+
+        <section class="form-section">
+          <fieldset class="field" data-field="payment">
+            <legend>Payment</legend>
+            <div class="segmented">
+              <label><input type="radio" name="payment" value="Cash"><span>Cash</span></label>
+              <label><input type="radio" name="payment" value="GCash"><span>GCash</span></label>
+            </div>
+          </fieldset>
+          <div class="gcash-box" id="gcashBox" hidden>
+            <img class="gcash-qr" id="gcashQr" src="" alt="" loading="lazy" width="320" height="614">
+            <div>
+              <strong>Pay with GCash</strong>
+              <p class="hint">Scan the QR code or send to the number below. Our team verifies GCash payments before preparing your order.</p>
+              <p class="gcash-num"><span id="gcashName"></span><br><span id="gcashNumber"></span></p>
+              <button class="btn btn-sm" type="button" id="copyGcash">Copy GCash number</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="form-section">
+          <label class="field"><span>Order notes <small>(optional)</small></span>
+            <small class="hint">Sales invoice details, special requests, allergies, or other instructions</small>
+            <textarea id="fNotes" name="notes" rows="3" maxlength="500" placeholder="Example: Sales invoice name and TIN / Less sugar / No ice"></textarea>
+          </label>
+        </section>
+
+        <section class="form-section summary" aria-labelledby="summaryTitle">
+          <h3 class="form-h" id="summaryTitle">Order summary</h3>
+          <div id="summaryLines"></div>
+        </section>
+
+        <div class="form-error" id="formErrorBottom" hidden></div>
+        <div class="send-row">
+          <button class="btn btn-primary send-btn" id="sendBtn" type="submit">Send order</button>
+          <button class="btn btn-sm" id="sendDuplicate" type="button" hidden>Send as a new, separate order</button>
+          <p class="hint send-hint">Our team reviews every order and will contact your Mobile / Viber number if needed.</p>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Confirmation -->
+  <dialog class="sheet confirm-sheet" id="confirmDialog" aria-labelledby="confirmTitle">
+    <div class="sheet-inner confirm-inner">
+      <div class="dry-run-banner" id="dryRunBanner" hidden>Test mode: this order was <strong>not</strong> sent to NAZ Coffee.</div>
+      <div class="confirm-mark" aria-hidden="true"><svg viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none"/><path fill="none" d="m15 27 7 7 15-16"/></svg></div>
+      <p class="eyebrow">Order received</p>
+      <h2 class="display confirm-title" id="confirmTitle">Thank you!</h2>
+      <p class="confirm-ref">Reference <strong id="confirmRef"></strong></p>
+      <div class="confirm-lines" id="confirmLines"></div>
+      <ul class="confirm-notes" id="confirmNotes"></ul>
+      <div class="confirm-actions">
+        <button class="btn btn-primary" type="button" id="newOrderBtn">Start a new order</button>
+        <a class="btn" href="/">Back to home</a>
+      </div>
+    </div>
+  </dialog>
+
+  <noscript><p class="noscript">Online ordering needs JavaScript enabled in your browser.</p></noscript>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api?__route=$1" },
+    { "source": "/api", "destination": "/api" }
+  ],
+  "redirects": [
+    { "source": "/order.html", "destination": "/order", "permanent": true },
+    { "source": "/naz-logo.png", "destination": "/assets/img/brand/naz-logo.png", "permanent": true },
+    { "source": "/gcash-qr.jpg", "destination": "/assets/img/brand/gcash-qr.jpg", "permanent": true },
+    { "source": "/favicon.ico", "destination": "/assets/img/brand/favicon-48.png", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com https://connect.facebook.net; img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com; style-src 'self'; style-src-attr 'unsafe-inline'; font-src 'self'; frame-src 'none'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ]
+}
