@@ -72,11 +72,14 @@ html { scroll-padding-top: calc(var(--header-h) + var(--cat-h) + 12px); }
 .p-name { font-weight: 700; font-size: 15px; line-height: 1.3; margin: 0; padding-right: 44px; }
 .p-opts { font-size: 12px; color: var(--muted); margin: 0; }
 .p-price { margin-top: auto; padding-top: 8px; font-weight: 800; color: var(--caramel-hi); font-size: 15px; }
+/* Icon buttons: fixed square boxes with no native padding/appearance, so iOS can't stretch them into ovals */
+.p-add, .stepper button, .sheet-close { -webkit-appearance: none; appearance: none; padding: 0; flex: none; display: grid; place-items: center; }
+.i { display: block; width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; pointer-events: none; }
 .p-add {
-  position: absolute; right: 12px; bottom: 12px; width: 44px; height: 44px; border-radius: 50%; border: 0;
-  background: var(--caramel); color: #160f0a; font-size: 24px; line-height: 1; display: grid; place-items: center; font-weight: 400;
-  transition: transform .25s var(--ease), background .25s;
+  position: absolute; right: 12px; bottom: 12px; width: 44px; height: 44px; border-radius: 14px; border: 0; /* squircle */
+  background: var(--caramel); color: #160f0a; transition: transform .25s var(--ease), background .25s;
 }
+.p-add .i { width: 22px; height: 22px; stroke-width: 2.4; }
 .p-add:hover { background: var(--caramel-hi); transform: scale(1.06); }
 .p-add:disabled { background: var(--espresso-2); color: var(--muted); cursor: not-allowed; transform: none; }
 .p-qty { position: absolute; top: 12px; right: 12px; z-index: 2; min-width: 30px; height: 30px; padding: 0 9px; border-radius: 999px; background: var(--cream); color: var(--black); font-weight: 800; font-size: 13px; display: grid; place-items: center; box-shadow: 0 6px 16px rgba(0, 0, 0, .35); }
@@ -87,7 +90,7 @@ html { scroll-padding-top: calc(var(--header-h) + var(--cat-h) + 12px); }
   .p-body { padding: 11px 12px 13px; }
   .p-name { font-size: 14px; padding-right: 0; }
   .p-price { padding-right: 46px; }
-  .p-add { width: 40px; height: 40px; right: 10px; bottom: 10px; }
+  .p-add { width: 40px; height: 40px; right: 10px; bottom: 10px; border-radius: 13px; }
 }
 .empty-state { padding: 80px 20px; text-align: center; color: var(--muted); }
 .empty-state p { margin: 0 0 16px; }
@@ -115,13 +118,15 @@ html { scroll-padding-top: calc(var(--header-h) + var(--cat-h) + 12px); }
 .c-checkout { width: 100%; min-height: 54px; font-size: 16px; }
 
 /* Stepper */
-.stepper { display: inline-grid; grid-template-columns: 34px 30px 34px; align-items: center; height: 34px; border-radius: 999px; border: 1px solid var(--line-strong); }
-.stepper button { height: 100%; border: 0; background: transparent; color: var(--cream); font-size: 18px; border-radius: 999px; }
+.stepper { display: inline-grid; grid-template-columns: 36px 30px 36px; align-items: stretch; height: 36px; border-radius: 12px; border: 1px solid var(--line-strong); }
+.stepper button { width: 100%; height: 100%; border: 0; background: transparent; color: var(--cream); border-radius: 11px; }
+.stepper .i { width: 16px; height: 16px; }
 .stepper button:hover:not(:disabled) { background: rgba(239, 228, 214, .08); }
 .stepper button:disabled { opacity: .3; cursor: not-allowed; }
-.stepper output, .stepper span { text-align: center; font-weight: 800; font-size: 14px; }
-.stepper-lg { grid-template-columns: 48px 40px 48px; height: 52px; }
-.stepper-lg button { font-size: 22px; }
+.stepper output, .stepper span { display: grid; place-items: center; font-weight: 800; font-size: 14px; font-variant-numeric: tabular-nums; }
+.stepper-lg { grid-template-columns: 48px 40px 48px; height: 52px; border-radius: 16px; }
+.stepper-lg button { border-radius: 15px; }
+.stepper-lg .i { width: 20px; height: 20px; }
 .stepper-lg output { font-size: 17px; }
 
 /* Mobile cart bar */
@@ -149,11 +154,11 @@ html { scroll-padding-top: calc(var(--header-h) + var(--cat-h) + 12px); }
 .sheet.is-closing { animation: sheet-out .22s ease forwards; }
 .sheet.is-closing::backdrop { animation: fade-out .22s ease forwards; }
 .sheet-inner { position: relative; overflow: auto; max-height: inherit; overscroll-behavior: contain; }
-.sheet-close {
-  position: absolute; right: 14px; top: 14px; z-index: 3; width: 44px; height: 44px; border-radius: 50%;
-  border: 1px solid var(--line-strong); background: rgba(11, 9, 8, .75); color: var(--cream); font-size: 24px; line-height: 1;
-}
-.sheet-close:hover { background: var(--espresso-2); }
+.sheet-close { position: absolute; right: 10px; top: 10px; z-index: 3; width: 44px; height: 44px; border: 0; background: none; color: var(--cream); border-radius: 10px; }
+.sheet-close .i { width: 24px; height: 24px; stroke-width: 2; }
+.sheet-close:hover { color: var(--caramel-hi); }
+.product-sheet .sheet-close { color: var(--black); } /* sits on the light product photo */
+.product-sheet .sheet-close:hover { color: var(--caramel); }
 @keyframes fade-in { from { opacity: 0; } }
 @keyframes fade-out { to { opacity: 0; } }
 

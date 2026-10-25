@@ -5,6 +5,13 @@ import { SITE } from "./site-config.js";
 import { createCart } from "./cart.js";
 import { esc, initReveal, fetchAvailability, toast, reducedMotion } from "./common.js";
 
+// Icons are SVG rather than "+ − ×" text so they sit dead-centre on every device and font.
+const ICON = {
+  plus: '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+  minus: '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg>',
+  close: '<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>'
+};
+
 const $ = id => document.getElementById(id);
 const cart = createCart();
 const state = {
@@ -105,7 +112,7 @@ function cardHtml(item, category, eager) {
         <span class="p-price">${money(item.price)}</span>
       </span>
     </button>
-    <button class="p-add" type="button" data-${quick ? "quick" : "open"}="${esc(item.id)}" ${available ? "" : "disabled"} aria-label="Add ${esc(item.name)}">+</button>
+    <button class="p-add" type="button" data-${quick ? "quick" : "open"}="${esc(item.id)}" ${available ? "" : "disabled"} aria-label="Add ${esc(item.name)}">${ICON.plus}</button>
   </article>`;
 }
 
@@ -267,9 +274,9 @@ function cartHtml() {
       <span class="c-name">${esc(line.name)}${line.choiceLabel ? `<span class="c-choice">${esc(line.choiceLabel)}</span>` : ""}</span>
       <span class="c-price">${money(line.lineTotal)}</span>
       <span class="stepper" role="group" aria-label="Quantity of ${esc(line.name)}">
-        <button type="button" data-step="-1" data-id="${esc(line.id)}" data-choice="${esc(line.choice)}" aria-label="${line.qty === 1 ? "Remove" : "Decrease"} ${esc(line.name)}">${line.qty === 1 ? "×" : "−"}</button>
+        <button type="button" data-step="-1" data-id="${esc(line.id)}" data-choice="${esc(line.choice)}" aria-label="${line.qty === 1 ? "Remove" : "Decrease"} ${esc(line.name)}">${line.qty === 1 ? ICON.close : ICON.minus}</button>
         <span>${line.qty}</span>
-        <button type="button" data-step="1" data-id="${esc(line.id)}" data-choice="${esc(line.choice)}" aria-label="Increase ${esc(line.name)}" ${line.qty >= RULES.maxQtyPerLine ? "disabled" : ""}>+</button>
+        <button type="button" data-step="1" data-id="${esc(line.id)}" data-choice="${esc(line.choice)}" aria-label="Increase ${esc(line.name)}" ${line.qty >= RULES.maxQtyPerLine ? "disabled" : ""}>${ICON.plus}</button>
       </span>
       ${unavailable ? '<span class="c-warn">Not available today. Please remove it to check out.</span>' : ""}
     </li>`;

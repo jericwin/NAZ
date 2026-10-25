@@ -78,7 +78,7 @@
   <!-- Product detail -->
   <dialog class="sheet product-sheet" id="productDialog" aria-labelledby="pdName">
     <div class="sheet-inner">
-      <button class="sheet-close" type="button" data-close aria-label="Close">×</button>
+      <button class="sheet-close" type="button" data-close aria-label="Close"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <div class="pd-media plate"><img id="pdImage" src="" alt="" width="480" height="480"></div>
       <div class="pd-body">
         <p class="pd-cat" id="pdCat"></p>
@@ -92,9 +92,9 @@
         </fieldset>
         <div class="pd-actions">
           <div class="stepper stepper-lg" role="group" aria-label="Quantity">
-            <button type="button" id="pdMinus" aria-label="Decrease quantity">−</button>
+            <button type="button" id="pdMinus" aria-label="Decrease quantity"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
             <output id="pdQty" aria-live="polite">1</output>
-            <button type="button" id="pdPlus" aria-label="Increase quantity">+</button>
+            <button type="button" id="pdPlus" aria-label="Increase quantity"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
           </div>
           <button class="btn btn-primary pd-add" type="button" id="pdAdd">Add to order</button>
         </div>
@@ -106,7 +106,7 @@
   <!-- Mobile cart drawer -->
   <dialog class="sheet cart-sheet" id="cartDialog" aria-labelledby="cartDialogTitle">
     <div class="sheet-inner">
-      <button class="sheet-close" type="button" data-close aria-label="Close">×</button>
+      <button class="sheet-close" type="button" data-close aria-label="Close"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <h2 class="cart-title" id="cartDialogTitle">Your order</h2>
       <div class="cart-body" data-cart-body></div>
     </div>
@@ -115,7 +115,7 @@
   <!-- Checkout -->
   <dialog class="sheet checkout-sheet" id="checkoutDialog" aria-labelledby="checkoutTitle">
     <div class="sheet-inner">
-      <button class="sheet-close" type="button" data-close aria-label="Close checkout">×</button>
+      <button class="sheet-close" type="button" data-close aria-label="Close checkout"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       <p class="eyebrow">Final step</p>
       <h2 class="display checkout-title" id="checkoutTitle">Checkout</h2>
 
