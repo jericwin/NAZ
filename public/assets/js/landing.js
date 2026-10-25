@@ -82,7 +82,7 @@ const STEAM = `<div class="steam" aria-hidden="true"><svg viewBox="0 0 120 150">
 </svg></div>`;
 
 function addSteam() {
-  document.querySelector(".hero-art")?.insertAdjacentHTML("afterbegin", STEAM);
+  document.querySelector(".cup-plate")?.insertAdjacentHTML("beforeend", STEAM);
   document.querySelector(".cta")?.insertAdjacentHTML("afterbegin", STEAM);
 }
 

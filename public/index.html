@@ -58,10 +58,15 @@
           </ul>
         </div>
         <div class="hero-art" aria-hidden="true">
-          <div class="art-arch plate"><img src="/assets/img/menu/caramel-cloud.webp" alt="" width="480" height="480" fetchpriority="high"></div>
-          <div class="art-round plate"><img src="/assets/img/menu/flat-white.webp" alt="" width="480" height="480"></div>
-          <div class="art-chip plate"><img src="/assets/img/menu/espresso-shot.webp" alt="" width="512" height="512"></div>
-          <p class="art-caption">Caramel Cloud · Flat White · Espresso Shot</p>
+          <svg class="cup-ring" viewBox="0 0 200 200">
+            <defs><path id="cupRingPath" d="M100,100 m-90,0 a90,90 0 1,1 180,0 a90,90 0 1,1 -180,0"/></defs>
+            <text><textPath href="#cupRingPath" textLength="560">Never an empty cup · NAZ Coffee · Never an empty cup · NAZ Coffee ·</textPath></text>
+          </svg>
+          <div class="cup-plate plate">
+            <span class="cup-shadow"></span>
+            <img class="cup" src="/assets/img/menu/flat-white.webp" alt="" width="480" height="480" fetchpriority="high">
+          </div>
+          <p class="art-caption">Flat White</p>
         </div>
       </div>
       <a class="scroll-cue" href="#menu" aria-label="Scroll to the menu"><span></span></a>

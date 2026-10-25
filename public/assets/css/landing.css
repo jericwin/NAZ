@@ -33,25 +33,24 @@
 .js .hero-in { opacity: 0; transform: translateY(18px); animation: rise 1s var(--ease) forwards; animation-delay: var(--d, 0s); }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
-.hero-art { position: relative; aspect-ratio: 1 / 1.08; width: 100%; max-width: 560px; justify-self: end; }
-.art-arch {
-  position: absolute; left: 14%; top: 0; width: 64%; height: 86%; border-radius: 999px 999px 28px 28px;
-  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 255, 255, .05);
+/* Hero cup: a single Flat White with steam, float, shadow and a rotating text ring */
+.hero-art { position: relative; aspect-ratio: 1; width: 100%; max-width: 560px; justify-self: end; }
+.cup-ring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; animation: spin 40s linear infinite; }
+.cup-ring text { font-family: var(--sans); font-size: 9px; font-weight: 700; letter-spacing: .3em; text-transform: uppercase; fill: var(--caramel-hi); opacity: .8; }
+.cup-plate {
+  position: absolute; inset: 10%; border-radius: 50%;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 255, 255, .05), 0 0 90px rgba(201, 138, 75, .25);
 }
-.art-arch img { transform: scale(1.12); animation: drift 18s ease-in-out infinite alternate; }
-.art-round { position: absolute; left: 0; bottom: 4%; width: 38%; aspect-ratio: 1; border-radius: 50%; box-shadow: var(--shadow); border: 6px solid var(--black); }
-.art-chip { position: absolute; right: 0; top: 34%; width: 27%; aspect-ratio: 1; border-radius: 22px; box-shadow: var(--shadow); border: 6px solid var(--black); }
-.art-round, .art-chip { animation: float 9s ease-in-out infinite alternate; }
-.art-chip { animation-delay: -4s; }
+.cup-plate .cup { position: absolute; left: 15%; bottom: 7%; width: 70%; height: auto; animation: cup-bob 5s ease-in-out infinite alternate; }
+.cup-shadow { position: absolute; left: 50%; bottom: 7%; width: 46%; height: 6%; margin-left: -23%; border-radius: 50%; background: radial-gradient(closest-side, rgba(60, 40, 25, .45), transparent); animation: cup-shadow 5s ease-in-out infinite alternate; }
 .art-caption { position: absolute; right: 0; bottom: 0; margin: 0; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
-.js .hero-art > * { opacity: 0; animation-name: art-in, var(--loop, none); animation-duration: 1.4s, 9s; animation-timing-function: var(--ease), ease-in-out; animation-fill-mode: forwards, none; animation-iteration-count: 1, infinite; animation-direction: normal, alternate; }
-.js .art-arch { animation-delay: .2s; }
-.js .art-round { --loop: float; animation-delay: .45s, 1.8s; }
-.js .art-chip { --loop: float; animation-delay: .6s, 2.6s; }
-.js .art-caption { animation-delay: 1s; }
+.js .hero-art > .cup-plate, .js .hero-art > .art-caption { opacity: 0; animation: art-in 1.4s var(--ease) forwards; }
+.js .hero-art > .cup-plate { animation-delay: .25s; }
+.js .hero-art > .art-caption { animation-delay: 1s; }
 @keyframes art-in { from { opacity: 0; transform: translateY(28px) scale(.96); } to { opacity: 1; transform: none; } }
-@keyframes float { to { transform: translateY(-10px); } }
-@keyframes drift { to { transform: scale(1.2) translate(-2%, 1%); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes cup-bob { from { transform: translateY(4px) rotate(-1deg); } to { transform: translateY(-8px) rotate(1deg); } }
+@keyframes cup-shadow { from { transform: scaleX(1); opacity: 1; } to { transform: scaleX(.8); opacity: .6; } }
 
 .scroll-cue { position: absolute; left: 50%; bottom: 26px; width: 26px; height: 42px; margin-left: -13px; border: 1px solid var(--line-strong); border-radius: 999px; }
 .scroll-cue span { position: absolute; left: 50%; top: 8px; width: 3px; height: 8px; margin-left: -1.5px; border-radius: 3px; background: var(--caramel-hi); animation: cue 2s ease-in-out infinite; }
@@ -60,8 +59,7 @@
 @media (max-width: 900px) {
   .hero { min-height: auto; padding-top: calc(var(--header-h) + 28px); padding-bottom: 72px; }
   .hero-grid { grid-template-columns: 1fr; }
-  .hero-art { order: -1; max-width: 420px; justify-self: center; width: 86%; aspect-ratio: 1 / .92; }
-  .art-arch { height: 100%; left: 18%; width: 58%; }
+  .hero-art { order: -1; max-width: 380px; justify-self: center; width: 84%; }
   .art-caption { display: none; }
   .scroll-cue { display: none; }
 }
@@ -199,10 +197,11 @@
   60% { transform: translateY(-14px) scaleY(1) skewX(6deg); }
   100% { opacity: 0; transform: translateY(-42px) scaleY(1.15) skewX(-4deg); }
 }
-.hero-art .steam { left: 46%; bottom: 92%; margin-left: -60px; }
-.js .hero-art > .steam { animation-delay: 1.2s; }
+/* Steam over the hero cup sits on the light plate, so it uses a warm translucent grey */
+.cup-plate .steam { left: 50%; top: 3%; width: 40%; height: 30%; margin-left: -20%; }
+.cup-plate .steam path { stroke: rgba(120, 92, 70, .32); stroke-width: 7; }
+.cup-plate .steam svg { filter: blur(5px); }
 .cta .steam { left: 50%; top: clamp(20px, 5vw, 60px); margin-left: -60px; }
-@media (max-width: 900px) { .hero-art .steam { width: 80px; height: 90px; margin-left: -40px; bottom: 94%; } }
 
 .beans { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
 .bean {
@@ -213,11 +212,10 @@
 .bean::after { content: ""; position: absolute; top: 14%; bottom: 14%; left: 40%; width: 30%; border-left: 2px solid rgba(12, 7, 4, .7); border-radius: 50%; }
 @keyframes bean { to { transform: translate(var(--dx, 12px), -26px) rotate(40deg); } }
 
-/* Pointer parallax on the hero cups (individual `translate` composes with the float animations) */
-.art-arch, .art-round, .art-chip { translate: calc(var(--px, 0) * var(--depth, 10px)) calc(var(--py, 0) * var(--depth, 10px)); transition: translate .6s var(--ease); }
-.art-arch { --depth: -8px; }
-.art-round { --depth: 18px; }
-.art-chip { --depth: 26px; }
+/* Pointer parallax on the hero cup (individual `translate` composes with the transform animations) */
+.cup-plate, .cup-ring { translate: calc(var(--px, 0) * var(--depth)) calc(var(--py, 0) * var(--depth)); transition: translate .6s var(--ease); }
+.cup-plate { --depth: 16px; }
+.cup-ring { --depth: -10px; }
 
 .f-card .plate img { transform-origin: 50% 80%; }
 .f-card:hover .plate img { transform: scale(1.07) rotate(-2deg); }
