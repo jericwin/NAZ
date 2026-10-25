@@ -64,10 +64,11 @@ function initMap() {
     className: "map-pin", iconSize: [52, 64], iconAnchor: [26, 62], popupAnchor: [0, -58],
     html: '<span class="map-pin-badge"><img src="/assets/img/brand/naz-logo-192.webp" alt=""></span>'
   });
-  L.marker([SHOP.lat, SHOP.lng], { icon: shopIcon, title: "NAZ Coffee", keyboard: true })
+  const pin = L.marker([SHOP.lat, SHOP.lng], { icon: shopIcon, title: "NAZ Coffee", keyboard: true })
     .addTo(map)
-    .bindPopup(`<strong>NAZ Coffee</strong><br>${esc(SITE.address)}`)
-    .openPopup();
+    .bindPopup(`<strong>NAZ Coffee</strong><br>${esc(SITE.address)}`, { maxWidth: 240, autoPanPadding: [12, 12] });
+  // On narrow maps the popup would hide the pin, so only open it where there's room.
+  if (map.getSize().x >= 420) pin.openPopup();
 }
 
 function formatDistance(m) {

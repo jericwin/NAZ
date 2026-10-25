@@ -64,6 +64,15 @@
   .art-caption { display: none; }
   .scroll-cue { display: none; }
 }
+/* Landscape phones: cup beside the copy so the headline stays on the first screen */
+@media (max-width: 900px) and (max-height: 520px) and (orientation: landscape) {
+  .hero { padding: calc(var(--header-h) + 18px) 0 40px; }
+  .hero-grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 20px; }
+  .hero-art { order: 0; width: 100%; max-width: min(300px, 62vh); }
+  .hero-title { font-size: clamp(34px, 6.6vw, 56px); margin-bottom: 14px; }
+  .hero-copy .lede { margin-bottom: 20px; font-size: 15px; }
+  .hero-facts { margin-top: 20px; padding-top: 16px; }
+}
 @media (max-width: 480px) {
   .hero-ctas .btn { flex: 1 1 100%; }
   .hero-facts { gap: 8px 18px; font-size: 13px; }
@@ -242,7 +251,7 @@
 .dir-from { display: flex; gap: 8px; }
 .dir-from input {
   flex: 1; min-width: 0; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--line-strong);
-  background: rgba(11, 9, 8, .5); color: var(--cream); font: inherit; font-size: 15px;
+  background: rgba(11, 9, 8, .5); color: var(--cream); font: inherit; font-size: 16px; /* 16px keeps iOS from zooming in on focus */
 }
 .dir-from input::placeholder { color: var(--muted); }
 .dir-from input:focus { outline: 2px solid var(--caramel); outline-offset: 1px; }
@@ -285,10 +294,9 @@
 
 @media (max-width: 900px) {
   .directions { grid-template-columns: 1fr; }
-  .dir-map-wrap { min-height: 380px; border-left: 0; border-top: 1px solid var(--line); order: -1; }
+  .dir-map-wrap { min-height: clamp(260px, 55vh, 420px); border-left: 0; border-top: 1px solid var(--line); order: -1; }
 }
 @media (max-width: 600px) {
-  .dir-map-wrap { min-height: 340px; }
   .dir-map-note { display: none; } /* the address is in the pin popup and the Visit details */
   .dir-links .btn { flex: 1 1 0; padding-inline: 10px; }
   .dir-time { font-size: 32px; }

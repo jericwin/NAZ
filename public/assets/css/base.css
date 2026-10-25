@@ -59,7 +59,7 @@ button { cursor: pointer; }
 .skip-link { position: absolute; left: 12px; top: -60px; z-index: 1200; background: var(--cream); color: var(--black); padding: 10px 14px; border-radius: var(--r-sm); font-weight: 700; text-decoration: none; }
 .skip-link:focus { top: 12px; }
 
-.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
+.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: max(var(--gutter), env(safe-area-inset-left)) max(var(--gutter), env(safe-area-inset-right)); }
 
 .eyebrow {
   display: inline-flex; align-items: center; gap: 10px; margin: 0 0 14px;
@@ -166,6 +166,18 @@ button { cursor: pointer; }
 .footer-base { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
 @media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer-brand { grid-column: 1 / -1; } }
 @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+
+/* Device range: short landscape phones get a slimmer header; very wide monitors get a wider column */
+@media (orientation: landscape) and (max-height: 500px) {
+  :root { --header-h: 56px; }
+  .brand img { width: 36px; height: 36px; border-radius: 9px; }
+  .menu-toggle { width: 40px; height: 40px; }
+}
+@media (orientation: landscape) and (max-height: 500px) and (max-width: 860px) {
+  .nav a:not(.btn) { min-height: 46px; font-size: 21px; }
+  .nav .btn { margin-top: 14px; min-height: 46px; }
+}
+@media (min-width: 1700px) { :root { --maxw: 1440px; } }
 
 /* Scroll reveal (enabled by JS; content is fully visible without it) */
 .js .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s var(--ease), transform .9s var(--ease); transition-delay: var(--d, 0s); }
