@@ -2,7 +2,7 @@ import "./analytics.js";
 import { MENU, DELIVERY_AREAS } from "/shared/menu.js";
 import { findItem, money } from "/shared/pricing.js";
 import { SITE } from "./site-config.js";
-import { esc, initHeader, initReveal, fetchAvailability } from "./common.js";
+import { esc, initHeader, initReveal, fetchAvailability, reducedMotion } from "./common.js";
 
 // Picked from the live menu; names must match shared/menu.js ids.
 const FEATURED = ["spanish-latte", "sea-salt-latte", "caramel-cloud", "naz-signature", "dirty-matcha-latte", "mont-blanc"];
@@ -74,7 +74,62 @@ function renderVisit() {
   if (contact.length) document.getElementById("footerContactList").innerHTML = contact.join("");
 }
 
+// Decorative motion: steam over the cups, drifting beans, pointer parallax, reward count-up.
+const STEAM = `<div class="steam" aria-hidden="true"><svg viewBox="0 0 120 150">
+  <path d="M40 145 C 26 120, 54 100, 40 76 S 28 34, 42 8"/>
+  <path d="M62 145 C 48 118, 76 98, 62 72 S 50 30, 64 4"/>
+  <path d="M84 145 C 70 122, 98 102, 84 80 S 72 40, 86 14"/>
+</svg></div>`;
+
+function addSteam() {
+  document.querySelector(".hero-art")?.insertAdjacentHTML("afterbegin", STEAM);
+  document.querySelector(".cta")?.insertAdjacentHTML("afterbegin", STEAM);
+}
+
+function scatterBeans(host, count) {
+  if (!host) return;
+  const rand = (min, max) => (min + Math.random() * (max - min)).toFixed(2);
+  const beans = Array.from({ length: count }, () =>
+    `<span class="bean" style="--x:${rand(2, 96)}%;--y:${rand(6, 90)}%;--s:${rand(.6, 1.3)};--r:${rand(0, 360)}deg;--o:${rand(.25, .6)};--t:${rand(9, 16)}s;--dl:-${rand(0, 10)}s;--dx:${rand(-20, 20)}px"></span>`);
+  host.insertAdjacentHTML("afterbegin", `<div class="beans" aria-hidden="true">${beans.join("")}</div>`);
+}
+
+function initParallax() {
+  const hero = document.querySelector(".hero");
+  if (!hero || reducedMotion() || !matchMedia("(pointer: fine)").matches) return;
+  hero.addEventListener("pointermove", e => {
+    const r = hero.getBoundingClientRect();
+    hero.style.setProperty("--px", ((e.clientX - r.left) / r.width - .5).toFixed(3));
+    hero.style.setProperty("--py", ((e.clientY - r.top) / r.height - .5).toFixed(3));
+  });
+  hero.addEventListener("pointerleave", () => { hero.style.setProperty("--px", 0); hero.style.setProperty("--py", 0); });
+}
+
+function initCountUp() {
+  const els = [...document.querySelectorAll(".rewards-facts dt")].filter(el => /\d/.test(el.textContent));
+  if (!els.length || reducedMotion() || !("IntersectionObserver" in window)) return;
+  const io = new IntersectionObserver(entries => {
+    for (const { isIntersecting, target } of entries) {
+      if (!isIntersecting) continue;
+      io.unobserve(target);
+      const text = target.textContent, end = Number(text.match(/\d+/)[0]), start = performance.now();
+      const tick = now => {
+        const t = Math.min((now - start) / 1200, 1);
+        target.textContent = text.replace(/\d+/, Math.round(end * (1 - (1 - t) ** 3)));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  }, { threshold: .6 });
+  els.forEach(el => io.observe(el));
+}
+
 initHeader();
+addSteam();
+scatterBeans(document.querySelector(".hero"), 9);
+scatterBeans(document.querySelector(".cta"), 6);
+initParallax();
+initCountUp();
 renderChips();
 renderVisit();
 renderFeatured();

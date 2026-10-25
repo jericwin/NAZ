@@ -186,3 +186,42 @@
 .fee-list li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .fee-list strong { color: var(--caramel-hi); }
 @media (max-width: 860px) { .visit-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Ambient coffee motion (landing only) ---------- */
+.steam { position: absolute; pointer-events: none; width: 120px; height: 150px; }
+.steam svg { width: 100%; height: 100%; overflow: visible; filter: blur(4px); }
+.steam path { fill: none; stroke: rgba(241, 230, 216, .5); stroke-width: 5; stroke-linecap: round; opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; animation: steam 4.2s ease-out infinite; }
+.steam path:nth-child(2) { animation-delay: 1.4s; animation-duration: 4.8s; }
+.steam path:nth-child(3) { animation-delay: 2.6s; animation-duration: 4.4s; }
+@keyframes steam {
+  0% { opacity: 0; transform: translateY(24px) scaleY(.6) skewX(0deg); }
+  25% { opacity: .9; }
+  60% { transform: translateY(-14px) scaleY(1) skewX(6deg); }
+  100% { opacity: 0; transform: translateY(-42px) scaleY(1.15) skewX(-4deg); }
+}
+.hero-art .steam { left: 46%; bottom: 92%; margin-left: -60px; }
+.js .hero-art > .steam { animation-delay: 1.2s; }
+.cta .steam { left: 50%; top: clamp(20px, 5vw, 60px); margin-left: -60px; }
+@media (max-width: 900px) { .hero-art .steam { width: 80px; height: 90px; margin-left: -40px; bottom: 94%; } }
+
+.beans { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+.bean {
+  position: absolute; left: var(--x); top: var(--y); width: calc(var(--s) * 18px); height: calc(var(--s) * 26px); border-radius: 50%;
+  background: radial-gradient(70% 60% at 35% 30%, #7a5136, #3a2416 70%, #24160d); box-shadow: 0 10px 22px rgba(0, 0, 0, .45);
+  opacity: var(--o, .55); rotate: var(--r); animation: bean var(--t, 12s) ease-in-out infinite alternate; animation-delay: var(--dl, 0s);
+}
+.bean::after { content: ""; position: absolute; top: 14%; bottom: 14%; left: 40%; width: 30%; border-left: 2px solid rgba(12, 7, 4, .7); border-radius: 50%; }
+@keyframes bean { to { transform: translate(var(--dx, 12px), -26px) rotate(40deg); } }
+
+/* Pointer parallax on the hero cups (individual `translate` composes with the float animations) */
+.art-arch, .art-round, .art-chip { translate: calc(var(--px, 0) * var(--depth, 10px)) calc(var(--py, 0) * var(--depth, 10px)); transition: translate .6s var(--ease); }
+.art-arch { --depth: -8px; }
+.art-round { --depth: 18px; }
+.art-chip { --depth: 26px; }
+
+.f-card .plate img { transform-origin: 50% 80%; }
+.f-card:hover .plate img { transform: scale(1.07) rotate(-2deg); }
+.story-stamp { animation: stamp 7s ease-in-out infinite alternate; }
+@keyframes stamp { from { transform: rotate(-6deg); } to { transform: rotate(4deg) translateY(-6px); } }
+.cta-bg img { animation: cta-swirl 26s linear infinite; }
+@keyframes cta-swirl { to { transform: scale(1.5) rotate(360deg); } }
