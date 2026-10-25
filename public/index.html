@@ -180,6 +180,49 @@
           <a class="btn btn-primary" href="/order">Start an order <span class="arrow" aria-hidden="true">→</span></a>
         </div>
       </div>
+
+      <div class="wrap">
+        <div class="directions reveal" id="directions">
+          <div class="dir-panel">
+            <p class="eyebrow">Get directions</p>
+            <h3 class="dir-title">How are you getting here?</h3>
+            <div class="dir-modes" role="group" aria-label="Travel mode">
+              <button type="button" data-mode="walk" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4" r="2"/><path d="M10 21l2-6 3 3v3M9 12l2-4 4 3 3 1M11 8l-3 2-1 4"/></svg>Walk</button>
+              <button type="button" data-mode="motor" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M8 17h6l3-6h-4l-2-3H8M16 11l-2-4h3"/></svg>Motor</button>
+              <button type="button" data-mode="jeep" aria-pressed="false">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 16V8a2 2 0 0 1 2-2h11l4 5v5H3z"/><path d="M3 11h17M8 6v5M13 6v5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>Jeep</button>
+              <button type="button" data-mode="car" aria-pressed="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16v-4l2-5h12l2 5v4H4z"/><path d="M4 12h16"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/></svg>Car</button>
+            </div>
+
+            <form class="dir-from" id="dirFrom">
+              <label class="sr-only" for="dirOrigin">Starting point</label>
+              <input id="dirOrigin" type="text" autocomplete="off" placeholder="Where are you coming from? e.g. Siniloan">
+              <button class="btn btn-primary btn-sm" type="submit">Go</button>
+            </form>
+            <button class="dir-locate" type="button" id="dirLocate">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="7.5"/></svg>
+              Use my current location
+            </button>
+
+            <div class="dir-summary" id="dirSummary" aria-live="polite">
+              <p class="dir-hint">Pick how you're travelling, then type where you're coming from or use your location. We'll draw the route and list every turn.</p>
+            </div>
+            <ol class="dir-steps" id="dirSteps"></ol>
+
+            <div class="dir-links">
+              <a class="btn btn-sm" id="dirGoogle" href="https://www.google.com/maps/dir/?api=1&amp;destination=14.395062,121.476516&amp;travelmode=driving" target="_blank" rel="noopener">Open in Google Maps</a>
+              <a class="btn btn-sm" id="dirWaze" href="https://waze.com/ul?ll=14.395062,121.476516&amp;navigate=yes" target="_blank" rel="noopener">Open in Waze</a>
+            </div>
+          </div>
+          <div class="dir-map-wrap">
+            <div class="dir-map" id="dirMap" role="region" aria-label="Map showing NAZ Coffee in Balian, Pangil"></div>
+            <p class="dir-map-note">Pin: 9FWG+2JC · National Hwy, Balian, Pangil, Laguna</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 

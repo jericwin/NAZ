@@ -2,6 +2,7 @@ import "./analytics.js";
 import { MENU, DELIVERY_AREAS } from "/shared/menu.js";
 import { findItem, money } from "/shared/pricing.js";
 import { SITE } from "./site-config.js";
+import { initDirections } from "./directions.js";
 import { esc, initHeader, initReveal, fetchAvailability, reducedMotion } from "./common.js";
 
 // Picked from the live menu; names must match shared/menu.js ids.
@@ -132,6 +133,7 @@ initParallax();
 initCountUp();
 renderChips();
 renderVisit();
+initDirections();
 renderFeatured();
 initReveal();
 document.getElementById("year").textContent = new Date().getFullYear();

@@ -32,8 +32,8 @@ const COMPRESSIBLE = new Set([".html", ".css", ".js", ".json", ".svg", ".txt", "
 const CSP = [
   "default-src 'self'",
   "script-src 'self' https://www.googletagmanager.com https://connect.facebook.net",
-  "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com https://connect.facebook.net",
-  "img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com",
+  "connect-src 'self' https://www.googletagmanager.com https://*.google-analytics.com https://*.analytics.google.com https://www.facebook.com https://connect.facebook.net https://routing.openstreetmap.de https://nominatim.openstreetmap.org",
+  "img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com https://www.facebook.com https://tile.openstreetmap.org https://server.arcgisonline.com",
   "style-src 'self'",
   "style-src-attr 'unsafe-inline'",
   "font-src 'self'",
@@ -48,7 +48,7 @@ function securityHeaders(res) {
   res.setHeader("Content-Security-Policy", CSP);
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(self)");
 }
 
 function sendJson(req, res, status, body) {
