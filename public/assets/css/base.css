@@ -56,7 +56,7 @@ button { cursor: pointer; }
 [hidden] { display: none !important; }
 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.skip-link { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--cream); color: var(--black); padding: 10px 14px; border-radius: var(--r-sm); font-weight: 700; text-decoration: none; }
+.skip-link { position: absolute; left: 12px; top: -60px; z-index: 1200; background: var(--cream); color: var(--black); padding: 10px 14px; border-radius: var(--r-sm); font-weight: 700; text-decoration: none; }
 .skip-link:focus { top: 12px; }
 
 .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
@@ -95,7 +95,7 @@ button { cursor: pointer; }
 
 /* Header */
 .site-header {
-  position: fixed; inset: 0 0 auto 0; z-index: 40; height: var(--header-h);
+  position: fixed; inset: 0 0 auto 0; z-index: 1100; height: var(--header-h); /* above the Leaflet map layers */
   transition: background .35s var(--ease), border-color .35s var(--ease), backdrop-filter .35s;
   border-bottom: 1px solid transparent;
 }
@@ -110,27 +110,43 @@ button { cursor: pointer; }
 .nav a:not(.btn):hover, .nav a[aria-current="page"] { color: var(--cream); background: rgba(239, 228, 214, .06); }
 .nav .btn { margin-left: 10px; }
 .menu-toggle {
-  display: none; margin-left: auto; width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--line-strong);
-  background: transparent; align-items: center; justify-content: center;
+  display: none; position: relative; margin-left: auto; width: 46px; height: 46px; border-radius: 999px; border: 1px solid var(--line-strong);
+  background: transparent; align-items: center; justify-content: center; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background .25s var(--ease), border-color .25s var(--ease);
 }
-.menu-toggle span, .menu-toggle span::before, .menu-toggle span::after { display: block; width: 18px; height: 1.5px; background: var(--cream); position: relative; transition: transform .3s var(--ease), background .2s; }
-.menu-toggle span::before, .menu-toggle span::after { content: ""; position: absolute; left: 0; }
-.menu-toggle span::before { top: -6px; } .menu-toggle span::after { top: 6px; }
-.menu-toggle[aria-expanded="true"] span { background: transparent; }
-.menu-toggle[aria-expanded="true"] span::before { transform: translateY(6px) rotate(45deg); }
-.menu-toggle[aria-expanded="true"] span::after { transform: translateY(-6px) rotate(-45deg); }
+.menu-icon, .menu-icon::before, .menu-icon::after { display: block; width: 18px; height: 2px; border-radius: 2px; background: var(--cream); transition: transform .3s var(--ease), background .2s, opacity .2s; }
+.menu-icon { position: relative; }
+.menu-icon::before, .menu-icon::after { content: ""; position: absolute; left: 0; }
+.menu-icon::before { top: -6px; } .menu-icon::after { top: 6px; }
+.menu-toggle[aria-expanded="true"] { background: var(--cream); border-color: var(--cream); }
+.menu-toggle[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-toggle[aria-expanded="true"] .menu-icon::before { background: var(--black); transform: translateY(6px) rotate(45deg); }
+.menu-toggle[aria-expanded="true"] .menu-icon::after { background: var(--black); transform: translateY(-6px) rotate(-45deg); }
+.menu-toggle:focus-visible { outline: 2px solid var(--caramel-hi); outline-offset: 3px; }
 
 @media (max-width: 860px) {
   .menu-toggle { display: inline-flex; }
+  /* Full-screen sheet under the header; tapping its empty area or the X closes it */
   .nav {
-    position: fixed; inset: var(--header-h) 0 auto 0; flex-direction: column; align-items: stretch; gap: 2px;
-    padding: 14px var(--gutter) 22px; background: rgba(11, 9, 8, .97); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line);
-    opacity: 0; transform: translateY(-8px); visibility: hidden; transition: opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+    position: fixed; inset: var(--header-h) 0 0 0; flex-direction: column; align-items: stretch; gap: 0; overflow-y: auto; overscroll-behavior: contain;
+    padding: 12px var(--gutter) calc(28px + env(safe-area-inset-bottom)); background: rgba(11, 9, 8, .98); backdrop-filter: blur(14px);
+    opacity: 0; visibility: hidden; transition: opacity .25s var(--ease), visibility .25s;
   }
-  .nav.is-open { opacity: 1; transform: none; visibility: visible; }
-  .nav a:not(.btn) { padding: 14px 6px; font-size: 17px; border-radius: 0; border-bottom: 1px solid var(--line); }
-  .nav .btn { margin: 14px 0 0; min-height: 52px; }
-  .site-header.nav-open { background: rgba(11, 9, 8, .97); border-bottom-color: var(--line); }
+  .nav.is-open { opacity: 1; visibility: visible; }
+  .nav a:not(.btn) {
+    display: flex; align-items: center; justify-content: space-between; min-height: 60px; padding: 0 4px; font-family: var(--serif); font-size: 26px; font-weight: 400;
+    border-radius: 0; border-bottom: 1px solid var(--line); background: none;
+  }
+  .nav a:not(.btn)::after { content: "→"; font-family: var(--sans); font-size: 18px; color: var(--muted); transition: transform .25s var(--ease), color .25s; }
+  .nav a:not(.btn):hover, .nav a[aria-current="page"] { background: none; color: var(--caramel-hi); }
+  .nav a:not(.btn):hover::after { transform: translateX(4px); color: var(--caramel-hi); }
+  .nav .btn { margin: 24px 0 0; min-height: 54px; font-size: 16px; }
+  .nav > * { opacity: 0; transform: translateY(10px); transition: opacity .35s var(--ease), transform .35s var(--ease); }
+  .nav.is-open > * { opacity: 1; transform: none; }
+  .nav.is-open > :nth-child(2) { transition-delay: .04s; } .nav.is-open > :nth-child(3) { transition-delay: .08s; }
+  .nav.is-open > :nth-child(4) { transition-delay: .12s; } .nav.is-open > :nth-child(5) { transition-delay: .16s; }
+  .site-header.nav-open { background: rgba(11, 9, 8, .98); border-bottom-color: var(--line); backdrop-filter: none; }
+  html.nav-locked, html.nav-locked body { overflow: hidden; }
 }
 
 /* Image "plate": product photos are shot on light backgrounds; multiply them onto a warm cream

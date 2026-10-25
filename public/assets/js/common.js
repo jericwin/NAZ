@@ -18,10 +18,13 @@ export function initHeader({ solidAfter = 24 } = {}) {
   const setOpen = open => {
     toggle.setAttribute("aria-expanded", String(open));
     nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     header.classList.toggle("nav-open", open);
+    document.documentElement.classList.toggle("nav-locked", open);
   };
   toggle.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
-  nav.addEventListener("click", e => { if (e.target.closest("a")) setOpen(false); });
+  // Close on a link tap or a tap on the sheet's empty area.
+  nav.addEventListener("click", e => { if (e.target === nav || e.target.closest("a")) setOpen(false); });
   document.addEventListener("keydown", e => {
     if (e.key === "Escape" && nav.classList.contains("is-open")) { setOpen(false); toggle.focus(); }
   });
